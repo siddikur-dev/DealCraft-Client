@@ -39,7 +39,7 @@ const Navbar = () => {
             <li className="hover:text-primary cursor-pointer">Home</li>
             <li className="hover:text-primary cursor-pointer">All Products</li>
             <li className="hover:text-primary cursor-pointer">My Products</li>
-            <li className="hover:text-primary cursor-pointer">My Bids</li>
+            <NavLink to={'/my-bid'} className="hover:text-primary cursor-pointer">My Bids</NavLink>
             <li className="hover:text-primary cursor-pointer">
               Create Product
             </li>
