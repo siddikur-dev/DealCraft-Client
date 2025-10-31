@@ -1,17 +1,20 @@
 import React from "react";
 import { FaSearch } from "react-icons/fa";
-
+import ProductCard from "../../Components/ProductCard/ProductCard";
+const productsAll = fetch("http://localhost:3000/latest-products").then(
+  (res) => res.json()
+);
 const Home = () => {
   return (
-    <div
-      className="min-h-screen"
-      style={{
-        background:
-          "linear-gradient(90deg, rgba(255,230,253,1) 0%, rgba(224,248,237,1) 100%)",
-      }}
-    >
+    <div>
       {/* Hero Section */}
-      <header className="flex flex-col items-center text-center px-6 py-16 md:py-24">
+      <header
+        className="flex flex-col items-center text-center px-6 py-16 md:py-24 min-h-[40vh]"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(255,230,253,1) 0%, rgba(224,248,237,1) 100%)",
+        }}
+      >
         <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-snug">
           Deal Your <span className="text-primary">Products</span> <br />
           In A <span className="text-primary">Smart</span> Way !
@@ -41,6 +44,8 @@ const Home = () => {
           </button>
         </div>
       </header>
+      <ProductCard productsAll={productsAll}></ProductCard>
+
     </div>
   );
 };

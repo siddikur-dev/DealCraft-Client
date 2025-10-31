@@ -6,6 +6,7 @@ import Login from "../../Pages/Auth/Login";
 import MyBid from "../../Components/MyBid/MyBid";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Profile from "../../Pages/Auth/Profile/Profile";
+import CreateProduct from "../../Pages/Create/CreateProduct";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,15 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/create-product",
+        element: (
+          <PrivateRoute>
+            <CreateProduct></CreateProduct>
+          </PrivateRoute>
+        ),
+      },
+
       { path: "/register", Component: Register },
       { path: "/login", Component: Login },
     ],
