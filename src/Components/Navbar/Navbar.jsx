@@ -1,8 +1,30 @@
-import React, { useState } from "react";
-
+import React, { use, useState } from "react";
+import Swal from "sweetalert2";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, NavLink } from "react-router";
+import { AuthContext } from "../../Context/AuthContext";
 const Navbar = () => {
+  const { user, loading, signOutUser } = use(AuthContext);
+  console.log(loading);
+  if (loading) {
+    <p>loading...</p>;
+  }
+
+  const handleSignOut = () => {
+    signOutUser()
+      .then(() => {
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Sign Out Successful",
+          showConfirmButton: false,
+          timer: 1200,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="container mx-auto">
@@ -27,15 +49,24 @@ const Navbar = () => {
           {/* Profile & Mobile Toggle */}
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
-              {/* <img
+              <img
                 src="https://i.ibb.co/CBSQShL/profile.jpg"
                 alt="user"
                 className="w-full h-full object-cover"
-              /> */}
+              />
             </div>
-            <Link to="/register" className="btn my-btn text-white">
-              Register
-            </Link>
+            {user ? (
+              <button onClick={handleSignOut} className="btn my-btn">LogOut</button>
+            ) : (
+              <>
+                <Link to="/register" className="btn my-btn text-white">
+                  Register
+                </Link>
+                <Link to="/login" className="btn my-btn btn-outline text-white">
+                  Login
+                </Link>
+              </>
+            )}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="md:hidden text-2xl text-primary"

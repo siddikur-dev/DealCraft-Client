@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { FaUserPlus } from "react-icons/fa";
 import { AuthContext } from "../../Context/AuthContext";
-import { auth } from "../../Context/Firebase/Firebas.config";
 
 const Register = () => {
   const { createUser, signInGoogle } = use(AuthContext);
@@ -139,7 +138,10 @@ const Register = () => {
             <div className="divider">OR</div>
           </div>
           {/* Google */}
-          <button onClick={handleSignInGoogle} className="btn bg-white text-black border-[#e5e5e5] w-full">
+          <button
+            onClick={handleSignInGoogle}
+            className="btn bg-white text-black border-[#e5e5e5] w-full"
+          >
             <svg
               aria-label="Google logo"
               width="16"

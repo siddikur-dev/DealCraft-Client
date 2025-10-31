@@ -1,8 +1,55 @@
-import React from "react";
+import React, { use } from "react";
 import { FaUserPlus } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import { AuthContext } from "../../Context/AuthContext";
+import Swal from "sweetalert2";
 
 const Login = () => {
+  const { signInWithMailPass, signInGoogle } = use(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  // login user
+
+  //sign in mail pass
+  const handleSignInUser = (e) => {
+    const form = e.target;
+    const formData = new FormData(form);
+    const { email, password, ...restUser } = Object.fromEntries(formData);
+
+    e.preventDefault();
+    signInWithMailPass(email, password)
+      .then((result) => {
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Sign Out Successful",
+          showConfirmButton: false,
+          timer: 1200,
+        });
+        console.log(result.user);
+        navigate(location.state || "/");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  // signInGoogle
+  const handleSignInGoogle = () => {
+    signInGoogle()
+      .then((result) => {
+        console.log(result.user);
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "User Created By Google",
+          showConfirmButton: false,
+          timer: 1200,
+        });
+        navigate(location.state || "/");
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <div className="min-h-screen bg-base-100 flex flex-col">
       <title>Login Page - DealCraft</title>
@@ -16,13 +63,14 @@ const Login = () => {
             </p>
           </div>
 
-          <form className="space-y-4">
+          <form onSubmit={handleSignInUser} className="space-y-4">
             <div>
               <label className="block text-gray-700 font-medium mb-1">
                 Email Address
               </label>
               <input
                 type="email"
+                name="email"
                 placeholder="Enter your email"
                 className="input input-bordered w-full"
                 required
@@ -34,6 +82,7 @@ const Login = () => {
                 Password
               </label>
               <input
+                name="password"
                 type="password"
                 placeholder="Enter your password"
                 className="input input-bordered w-full"
@@ -60,7 +109,7 @@ const Login = () => {
             <div className="divider">OR</div>
           </div>
           {/* Google */}
-          <button className="btn bg-white text-black border-[#e5e5e5] w-full">
+          <button onClick={handleSignInGoogle} className="btn bg-white text-black border-[#e5e5e5] w-full">
             <svg
               aria-label="Google logo"
               width="16"
