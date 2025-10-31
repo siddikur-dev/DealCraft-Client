@@ -5,6 +5,7 @@ import Register from "../../Pages/Auth/Register";
 import Login from "../../Pages/Auth/Login";
 import MyBid from "../../Components/MyBid/MyBid";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import Profile from "../../Pages/Auth/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyBid></MyBid>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
           </PrivateRoute>
         ),
       },

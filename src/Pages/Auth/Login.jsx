@@ -14,7 +14,7 @@ const Login = () => {
   const handleSignInUser = (e) => {
     const form = e.target;
     const formData = new FormData(form);
-    const { email, password, ...restUser } = Object.fromEntries(formData);
+    const { email, password } = Object.fromEntries(formData);
 
     e.preventDefault();
     signInWithMailPass(email, password)

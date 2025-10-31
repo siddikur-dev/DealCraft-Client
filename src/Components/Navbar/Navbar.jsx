@@ -5,6 +5,7 @@ import { Link, NavLink } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 const Navbar = () => {
   const { user, loading, signOutUser } = use(AuthContext);
+  console.log(user);
   if (loading) {
     <p>loading...</p>;
   }
@@ -36,24 +37,50 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <ul className="hidden md:flex gap-6 font-medium ">
-            <li className="hover:text-primary cursor-pointer">Home</li>
-            <li className="hover:text-primary cursor-pointer">All Products</li>
-            <li className="hover:text-primary cursor-pointer">My Products</li>
-            <NavLink to={'/my-bid'} className="hover:text-primary cursor-pointer">My Bids</NavLink>
-            <li className="hover:text-primary cursor-pointer">
+            <NavLink to={"/"} className="hover:text-primary cursor-pointer">
+              Home
+            </NavLink>
+            <NavLink
+              to={"/all-products"}
+              className="hover:text-primary cursor-pointer"
+            >
+              All Products
+            </NavLink>
+            <NavLink
+              to={"/my-products"}
+              className="hover:text-primary cursor-pointer"
+            >
+              My Products
+            </NavLink>
+            <NavLink
+              to={"/my-bid"}
+              className="hover:text-primary cursor-pointer"
+            >
+              My Bids
+            </NavLink>
+            <NavLink
+              to={"/create-product"}
+              className="hover:text-primary cursor-pointer"
+            >
               Create Product
-            </li>
+            </NavLink>
           </ul>
 
           {/* Profile & Mobile Toggle */}
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
+            <Link
+              to={"/profile"}
+              className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary"
+            >
               <img
-                src="https://i.ibb.co/CBSQShL/profile.jpg"
+                src={
+                  user?.photoURL ||
+                  "https://cdn-icons-png.flaticon.com/128/3135/3135715.png"
+                }
                 alt="user"
                 className="w-full h-full object-cover"
               />
-            </div>
+            </Link>
             {user ? (
               <button onClick={handleSignOut} className="btn my-btn">
                 LogOut
