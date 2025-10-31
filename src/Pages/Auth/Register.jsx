@@ -18,15 +18,32 @@ const Register = () => {
     // firebase userCreated
     createUser(email, password)
       .then((result) => {
-        console.log(result.user);
-        Swal.fire({
-          position: "top-center",
-          icon: "success",
-          title: "User Created",
-          showConfirmButton: false,
-          timer: 1200,
-        });
-        navigate(location.state || "/");
+        const newUser = {
+          email,
+          restUser,
+          creationTime: result.user?.metadata?.creationTime,
+          lastSignInTime: result.user?.metadata?.lastSignInTime,
+        };
+        fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+
+            Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "User Created",
+              showConfirmButton: false,
+              timer: 1200,
+            });
+            navigate(location.state || "/");
+          });
       })
       .catch((error) => {
         console.log(error.message);

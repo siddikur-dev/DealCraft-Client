@@ -5,7 +5,6 @@ import { Link, NavLink } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 const Navbar = () => {
   const { user, loading, signOutUser } = use(AuthContext);
-  console.log(loading);
   if (loading) {
     <p>loading...</p>;
   }
@@ -56,7 +55,9 @@ const Navbar = () => {
               />
             </div>
             {user ? (
-              <button onClick={handleSignOut} className="btn my-btn">LogOut</button>
+              <button onClick={handleSignOut} className="btn my-btn">
+                LogOut
+              </button>
             ) : (
               <>
                 <Link to="/register" className="btn my-btn text-white">

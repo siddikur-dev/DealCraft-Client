@@ -109,7 +109,10 @@ const Login = () => {
             <div className="divider">OR</div>
           </div>
           {/* Google */}
-          <button onClick={handleSignInGoogle} className="btn bg-white text-black border-[#e5e5e5] w-full">
+          <button
+            onClick={handleSignInGoogle}
+            className="btn bg-white text-black border-[#e5e5e5] w-full"
+          >
             <svg
               aria-label="Google logo"
               width="16"
