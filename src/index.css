@@ -1,2 +1,24 @@
 @import "tailwindcss";
-@plugin "daisyui";
+
+@plugin "daisyui" {
+    themes: light --default;
+}
+
+@plugin "daisyui/theme" {
+    name: "light";
+    default: true;
+    --color-primary: #9F62F2;
+    /* Coral Red */
+    --color-secondary: #632EE3;
+    /* Soft Yellow */
+    --bg-base-100: #f5f5f5;
+}
+
+a.active {
+    color: #632EE3;
+}
+
+.my-btn {
+    background-image: linear-gradient(to right, #632EE3 0%, #9F62F2 100%);
+    color: white;
+}
