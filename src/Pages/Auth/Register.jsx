@@ -1,10 +1,60 @@
-import React from "react";
-import { Link } from "react-router";
+import React, { use } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
+import Swal from "sweetalert2";
 import { FaUserPlus } from "react-icons/fa";
+import { AuthContext } from "../../Context/AuthContext";
+import { auth } from "../../Context/Firebase/Firebas.config";
 
 const Register = () => {
+  const { createUser, signInGoogle } = use(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  // create user mail pass
+  const handleCreateUser = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const { email, password, ...restUser } = Object.fromEntries(formData);
+
+    // firebase userCreated
+    createUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "User Created",
+          showConfirmButton: false,
+          timer: 1200,
+        });
+        navigate(location.state || "/");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        // ..
+      });
+  };
+
+  // signInGoogle
+  const handleSignInGoogle = () => {
+    signInGoogle()
+      .then((result) => {
+        console.log(result.user);
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "User Created By Google",
+          showConfirmButton: false,
+          timer: 1200,
+        });
+        navigate(location.state || "/");
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div className="min-h-screen bg-base-100 flex flex-col">
+      <title>Register - DealCraft</title>
       {/* Register Form Section */}
       <div className="flex justify-center items-center px-6 py-12">
         <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 md:p-10">
@@ -12,17 +62,18 @@ const Register = () => {
             <FaUserPlus className="text-primary text-4xl mx-auto mb-3" />
             <h2 className="text-3xl font-bold text-gray-800">Create Account</h2>
             <p className="text-gray-500 text-sm mt-2">
-              Join SmartDeals and start selling or buying smartly!
+              Join DealCraft and start selling or buying smartly!
             </p>
           </div>
 
-          <form className="space-y-4">
+          <form onSubmit={handleCreateUser} className="space-y-4">
             <div>
               <label className="block text-gray-700 font-medium mb-1">
                 Full Name
               </label>
               <input
                 type="text"
+                name="name"
                 placeholder="Enter your full name"
                 className="input input-bordered w-full"
                 required
@@ -35,6 +86,7 @@ const Register = () => {
               </label>
               <input
                 type="email"
+                name="email"
                 placeholder="Enter your email"
                 className="input input-bordered w-full"
                 required
@@ -46,6 +98,7 @@ const Register = () => {
               </label>
               <input
                 type="text"
+                name="photoURL"
                 placeholder="Enter your photo URL"
                 className="input input-bordered w-full"
                 required
@@ -58,6 +111,7 @@ const Register = () => {
               </label>
               <input
                 type="password"
+                name="password"
                 placeholder="Enter your password"
                 className="input input-bordered w-full"
                 required
@@ -65,7 +119,9 @@ const Register = () => {
             </div>
 
             <div className="mt-6">
-              <button className="btn my-btn w-full text-white">Register</button>
+              <button type="submit" className="btn my-btn w-full text-white">
+                Register
+              </button>
             </div>
           </form>
 
@@ -83,7 +139,7 @@ const Register = () => {
             <div className="divider">OR</div>
           </div>
           {/* Google */}
-          <button className="btn bg-white text-black border-[#e5e5e5] w-full">
+          <button onClick={handleSignInGoogle} className="btn bg-white text-black border-[#e5e5e5] w-full">
             <svg
               aria-label="Google logo"
               width="16"

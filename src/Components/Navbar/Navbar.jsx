@@ -48,7 +48,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {menuOpen && (
           <ul className="md:hidden flex flex-col gap-3 px-4 pb-4 font-medium bg-white border-t border-gray-100">
-            <li className="text-primary cursor-pointer">Home</li>
+            <li className="hover:text-primary cursor-pointer">Home</li>
             <li className="hover:text-primary cursor-pointer">All Products</li>
             <li className="hover:text-primary cursor-pointer">My Products</li>
             <li className="hover:text-primary cursor-pointer">My Bids</li>
