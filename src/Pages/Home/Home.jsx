@@ -7,6 +7,8 @@ const productsAll = fetch("http://localhost:3000/latest-products").then((res) =>
 const Home = () => {
   return (
     <div>
+     
+
       {/* Hero Section */}
       <header
         className="flex flex-col items-center text-center px-6 py-16 md:py-24 min-h-[40vh]"

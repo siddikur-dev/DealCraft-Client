@@ -6,9 +6,11 @@ import Swal from "sweetalert2";
 const ProductDetails = () => {
   const product = useLoaderData();
   const bidRef = useRef();
-  const { user } = use(AuthContext);
-  const [bids, setBids] = useState();
-console.log(bids);
+  const [bids, setBids] = useState([]);
+  const { user, loading } = use(AuthContext);
+  if (loading) {
+    <p>Loading...</p>;
+  }
   const handleBidModal = () => {
     bidRef.current.showModal();
   };
@@ -40,6 +42,12 @@ console.log(bids);
             showConfirmButton: false,
             timer: 1000,
           });
+          newBid._id = data.insertedId;
+          const newBids = [...bids, newBid];
+          const sortedProductsBids = newBids.sort(
+            (a, b) => b.price_min - a.price_min
+          );
+          setBids(sortedProductsBids);
         }
       });
 
@@ -83,7 +91,6 @@ console.log(bids);
       >
         ← Back To Products
       </Link>
-
       {/* Title */}
       <h2 className="text-2xl md:text-3xl font-bold mb-4">
         {title.split(" ").slice(0, 2).join(" ")}{" "}
@@ -91,7 +98,6 @@ console.log(bids);
           {title.split(" ").slice(2).join(" ")}
         </span>
       </h2>
-
       {/* Product Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Section */}
@@ -268,9 +274,82 @@ console.log(bids);
             </div>
           </dialog>
         </div>
-      </div>\
+      </div>
+      {/* show bids*/}
+      <section className="mt-12">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">
+          Bids For This Product:{" "}
+          <span className="text-[#9F62F2]">{bids?.length}</span>
+        </h2>
 
-      {/* show */}
+        <div className="overflow-x-auto bg-white rounded-xl shadow-md">
+          <table className="table w-full">
+            <thead className="bg-base-200 text-gray-700">
+              <tr>
+                <th>SL</th>
+                <th>Product</th>
+                <th>Bidder</th>
+                <th>Bid Price</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {bids.length > 0 ? (
+                bids.map((bid, index) => (
+                  <tr key={bid?._id || index} className="hover">
+                    <td className="font-medium">{index + 1}</td>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={bid.productImage}
+                          alt={bid.productName}
+                          className="w-10 h-10 rounded-md object-cover bg-base-200"
+                        />
+                        <p className="font-semibold text-gray-800 text-sm">
+                          {bid.productName}
+                        </p>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={bid.image}
+                          alt={bid.name}
+                          className="w-10 h-10 rounded-full object-cover bg-base-200"
+                        />
+                        <div>
+                          <p className="font-semibold text-gray-800 text-sm">
+                            {bid.name}
+                          </p>
+                          <p className="text-xs text-gray-500">{bid.email}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="font-semibold text-gray-800">
+                      ৳{bid.bidAmount}
+                    </td>
+                    <td className="flex items-center gap-2">
+                      <button className="btn btn-sm text-green-600 border border-green-500 bg-transparent hover:bg-green-100">
+                        Accept Offer
+                      </button>
+                      <button className="btn btn-sm text-red-500 border border-red-400 bg-transparent hover:bg-red-100">
+                        Reject
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center py-6 text-gray-500">
+                    No bids yet for this product.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </section>
   );
 };
