@@ -1,8 +1,30 @@
-import React from "react";
+import React, { use, useRef } from "react";
 import { Link, useLoaderData } from "react-router";
+import { AuthContext } from "../../Context/AuthContext";
 
 const ProductDetails = () => {
   const product = useLoaderData();
+  const bidRef = useRef();
+  const { user } = use(AuthContext);
+  const handleBidModal = () => {
+    bidRef.current.showModal();
+  };
+
+  const handleBidSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const bidData = {
+      name: form.name.value,
+      email: form.email.value,
+      bidAmount: form.bid.value,
+      productId: product._id,
+    };
+
+    console.log("Bid submitted:", bidData);
+    form.reset();
+    bidRef.current.close();
+  };
+
   const {
     _id,
     title,
@@ -40,6 +62,7 @@ const ProductDetails = () => {
         </span>
       </h2>
 
+      {/* Product Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Section */}
         <div>
@@ -144,9 +167,76 @@ const ProductDetails = () => {
           </div>
 
           {/* Button */}
-          <button className="btn bg-gradient-to-r from-[#632EE3] to-[#9F62F2] text-white border-none mt-2">
+          <button
+            onClick={handleBidModal}
+            className="btn bg-gradient-to-r from-[#632EE3] to-[#9F62F2] text-white border-none mt-2"
+          >
             I Want Buy This Product
           </button>
+
+          {/* MODAL */}
+          <dialog ref={bidRef} className="modal modal-bottom sm:modal-middle">
+            <div className="modal-box bg-base-100">
+              <h3 className="font-bold text-lg text-center mb-4 text-primary">
+                Submit Your Bid
+              </h3>
+
+              <form onSubmit={handleBidSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    defaultValue={user?.displayName}
+                    required
+                    className="input input-bordered w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    defaultValue={user?.email}
+                    required
+                    className="input input-bordered w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Bid Amount
+                  </label>
+                  <input
+                    type="number"
+                    name="bid"
+                    placeholder="Enter your bid amount"
+                    required
+                    className="input input-bordered w-full"
+                  />
+                </div>
+
+                <div className="modal-action flex justify-between">
+                  <button
+                    type="button"
+                    onClick={() => bidRef.current.close()}
+                    className="btn btn-outline"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn bg-gradient-to-r from-[#632EE3] to-[#9F62F2] text-white border-none"
+                  >
+                    Submit Bid
+                  </button>
+                </div>
+              </form>
+            </div>
+          </dialog>
         </div>
       </div>
     </section>
