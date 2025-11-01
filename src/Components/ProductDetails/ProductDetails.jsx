@@ -1,11 +1,14 @@
-import React, { use, useRef } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { Link, useLoaderData } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
+import Swal from "sweetalert2";
 
 const ProductDetails = () => {
   const product = useLoaderData();
   const bidRef = useRef();
   const { user } = use(AuthContext);
+  const [bids, setBids] = useState();
+console.log(bids);
   const handleBidModal = () => {
     bidRef.current.showModal();
   };
@@ -28,12 +31,30 @@ const ProductDetails = () => {
       body: JSON.stringify(newBid),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.insertedId) {
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Your bids has been placed",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+        }
+      });
 
     console.log("Bid submitted:", newBid);
     form.reset();
     bidRef.current.close();
   };
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/products/bids/${product?._id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setBids(data);
+      });
+  }, [product?._id]);
 
   const {
     _id,
@@ -53,7 +74,6 @@ const ProductDetails = () => {
     created_at,
     status,
   } = product;
-
   return (
     <section className="container mx-auto px-4 py-10">
       {/* Back Button */}
@@ -248,7 +268,9 @@ const ProductDetails = () => {
             </div>
           </dialog>
         </div>
-      </div>
+      </div>\
+
+      {/* show */}
     </section>
   );
 };
