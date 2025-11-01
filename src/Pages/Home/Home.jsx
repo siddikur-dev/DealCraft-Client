@@ -1,14 +1,12 @@
 import React from "react";
 import { FaSearch } from "react-icons/fa";
 import LatestProducts from "../../Components/LatestProducts/LatestProducts";
-const productsAll = fetch("http://localhost:3000/latest-products").then((res) =>
-  res.json()
-);
+const productsAll = fetch(
+  "https://deal-craft-server.vercel.app/latest-products"
+).then((res) => res.json());
 const Home = () => {
   return (
     <div>
-     
-
       {/* Hero Section */}
       <header
         className="flex flex-col items-center text-center px-6 py-16 md:py-24 min-h-[40vh]"

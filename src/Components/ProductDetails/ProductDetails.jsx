@@ -25,7 +25,7 @@ const ProductDetails = () => {
       productId: product._id,
       image: user.photoURL,
     };
-    fetch(`http://localhost:3000/bids`, {
+    fetch(`https://deal-craft-server.vercel.app/bids`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -57,7 +57,7 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/products/bids/${product?._id}`)
+    fetch(`https://deal-craft-server.vercel.app/products/bids/${product?._id}`)
       .then((res) => res.json())
       .then((data) => {
         setBids(data);

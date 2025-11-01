@@ -24,7 +24,7 @@ const Register = () => {
           creationTime: result.user?.metadata?.creationTime,
           lastSignInTime: result.user?.metadata?.lastSignInTime,
         };
-        fetch("http://localhost:3000/users", {
+        fetch("https://deal-craft-server.vercel.app/users", {
           method: "POST",
           headers: {
             "content-type": "application/json",
