@@ -13,14 +13,24 @@ const ProductDetails = () => {
   const handleBidSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
-    const bidData = {
+    const newBid = {
       name: form.name.value,
       email: form.email.value,
       bidAmount: form.bid.value,
       productId: product._id,
+      image: user.photoURL,
     };
+    fetch(`http://localhost:3000/bids`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newBid),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
 
-    console.log("Bid submitted:", bidData);
+    console.log("Bid submitted:", newBid);
     form.reset();
     bidRef.current.close();
   };
@@ -223,7 +233,7 @@ const ProductDetails = () => {
                   <button
                     type="button"
                     onClick={() => bidRef.current.close()}
-                    className="btn btn-outline"
+                    className="btn btn-secondary btn-outline"
                   >
                     Cancel
                   </button>
