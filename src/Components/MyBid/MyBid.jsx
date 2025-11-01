@@ -1,5 +1,6 @@
 import React, { use, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
+import Swal from "sweetalert2";
 
 const MyBid = () => {
   const { user } = use(AuthContext);
@@ -8,10 +9,40 @@ const MyBid = () => {
     fetch(`http://localhost:3000/bids/?email=${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setBids(data);
       });
   }, [user?.email]);
+
+  const handleDelete = (_id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#632EE3",
+      cancelButtonColor: "#632EE3",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3000/bids/${_id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "Your bids has been deleted",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            const remainingBids = bids.filter((bid) => bid._id !== _id);
+            setBids(remainingBids);
+          });
+      }
+    });
+  };
   return (
     <div>
       <section className="mt-12">
@@ -71,8 +102,11 @@ const MyBid = () => {
                       <button className="btn btn-sm text-green-600 border border-green-500 bg-transparent hover:bg-green-100">
                         Accept Offer
                       </button>
-                      <button className="btn btn-sm text-red-500 border border-red-400 bg-transparent hover:bg-red-100">
-                        Reject
+                      <button
+                        onClick={() => handleDelete(bid?._id)}
+                        className="btn btn-sm text-red-500 border border-red-400 bg-transparent hover:bg-red-100"
+                      >
+                        Delete Bid
                       </button>
                     </td>
                   </tr>
