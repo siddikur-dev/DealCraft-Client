@@ -1,8 +1,8 @@
 import React from "react";
 import { FaSearch } from "react-icons/fa";
-import ProductCard from "../../Components/ProductCard/ProductCard";
-const productsAll = fetch("http://localhost:3000/latest-products").then(
-  (res) => res.json()
+import LatestProducts from "../../Components/LatestProducts/LatestProducts";
+const productsAll = fetch("http://localhost:3000/latest-products").then((res) =>
+  res.json()
 );
 const Home = () => {
   return (
@@ -44,8 +44,7 @@ const Home = () => {
           </button>
         </div>
       </header>
-      <ProductCard productsAll={productsAll}></ProductCard>
-
+      <LatestProducts productsAll={productsAll}></LatestProducts>
     </div>
   );
 };

@@ -7,17 +7,19 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
   if (loading) {
     return (
-      <CircularProgress
-        height="100"
-        width="100"
-        color="#632EE3"
-        ariaLabel="circular-progress-loading"
-        wrapperStyle={{}}
-        wrapperClass="wrapper-class"
-        visible={true}
-        strokeWidth={2}
-        animationDuration={1}
-      />
+      <div className="flex mx-auto justify-center my-12">
+        <CircularProgress
+          height="100"
+          width="100"
+          color="#632EE3"
+          ariaLabel="circular-progress-loading"
+          wrapperStyle={{}}
+          wrapperClass="wrapper-class"
+          visible={true}
+          strokeWidth={2}
+          animationDuration={1}
+        />
+      </div>
     );
   }
   if (!user) {
