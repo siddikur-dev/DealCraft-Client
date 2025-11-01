@@ -6,12 +6,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBPZVeoY9gTXIh9Z9S-v5tmGYZ3-kHdel8",
-  authDomain: "dealcraftclient.firebaseapp.com",
-  projectId: "dealcraftclient",
-  storageBucket: "dealcraftclient.firebasestorage.app",
-  messagingSenderId: "881584814597",
-  appId: "1:881584814597:web:d82aa2002091d8a2203a6c",
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
 };
 
 // Initialize Firebase
