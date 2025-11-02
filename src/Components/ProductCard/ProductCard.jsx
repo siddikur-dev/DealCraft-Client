@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router";
 
 const ProductCard = ({ product }) => {
-  console.log(product);
   return (
     <div
       key={product._id}
@@ -13,7 +12,7 @@ const ProductCard = ({ product }) => {
         <img
           src={product.image}
           alt={product.title}
-          className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
         />
       </figure>
 
@@ -24,7 +23,7 @@ const ProductCard = ({ product }) => {
             {product.title}
           </h3>
           <span className="text-xl font-bold text-primary">
-            {product.price_min.toFixed()} - {product.price_max.toFixed()}
+            {product.price_min} - {product.price_max}
           </span>
         </div>
 

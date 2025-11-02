@@ -3,11 +3,17 @@ import Swal from "sweetalert2";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
+import { BlinkBlur } from "react-loading-indicators";
 const Navbar = () => {
   const { user, loading, signOutUser } = use(AuthContext);
-  console.log(user);
+
+  const [menuOpen, setMenuOpen] = useState(false);
   if (loading) {
-    <p>loading...</p>;
+    return (
+      <div className="flex mx-auto justify-center mb-52">
+        <BlinkBlur color="#632EE3" size="small" text="" textColor="" />
+      </div>
+    );
   }
 
   const handleSignOut = () => {
@@ -25,7 +31,7 @@ const Navbar = () => {
         console.log(error);
       });
   };
-  const [menuOpen, setMenuOpen] = useState(false);
+  console.log(user);
   return (
     <div className="container mx-auto">
       <nav className="bg-white shadow-sm sticky top-0 z-50">

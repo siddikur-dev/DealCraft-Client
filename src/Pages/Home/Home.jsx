@@ -2,7 +2,7 @@ import React from "react";
 import { FaSearch } from "react-icons/fa";
 import LatestProducts from "../../Components/LatestProducts/LatestProducts";
 const productsAll = fetch(
-  "https://deal-craft-server.vercel.app/latest-products"
+  "http://localhost:3000/latest-products"
 ).then((res) => res.json());
 const Home = () => {
   return (

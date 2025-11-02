@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { FaUserPlus } from "react-icons/fa";
 import { AuthContext } from "../../Context/AuthContext";
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
   const { createUser, signInGoogle } = use(AuthContext);
@@ -13,8 +14,9 @@ const Register = () => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const { email, password, ...restUser } = Object.fromEntries(formData);
-
+    const { email, password, displayName, photoURL, ...restUser } =
+      Object.fromEntries(formData);
+    console.log({ displayName, photoURL, email, password });
     // firebase userCreated
     createUser(email, password)
       .then((result) => {
@@ -24,6 +26,9 @@ const Register = () => {
           creationTime: result.user?.metadata?.creationTime,
           lastSignInTime: result.user?.metadata?.lastSignInTime,
         };
+        updateProfile(result.user, { displayName, photoURL });
+
+        // send to server through backend
         fetch("https://deal-craft-server.vercel.app/users", {
           method: "POST",
           headers: {
@@ -34,7 +39,6 @@ const Register = () => {
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
-
             Swal.fire({
               position: "top-center",
               icon: "success",
@@ -89,7 +93,7 @@ const Register = () => {
               </label>
               <input
                 type="text"
-                name="name"
+                name="displayName"
                 placeholder="Enter your full name"
                 className="input input-bordered w-full"
                 required
@@ -117,7 +121,6 @@ const Register = () => {
                 name="photoURL"
                 placeholder="Enter your photo URL"
                 className="input input-bordered w-full"
-                required
               />
             </div>
 

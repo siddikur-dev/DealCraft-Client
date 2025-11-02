@@ -106,11 +106,7 @@ const ProductDetails = () => {
             <img
               src={image}
               alt={title}
-              className="w-full h-72 object-cover rounded-lg mb-4"
-              onError={(e) =>
-                (e.currentTarget.src =
-                  "https://via.placeholder.com/600x400?text=No+Image")
-              }
+              className=" mx-auto w-full  object-cover rounded-lg mb-4"
             />
 
             <div className="border-t pt-4">

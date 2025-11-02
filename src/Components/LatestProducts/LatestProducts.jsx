@@ -4,7 +4,6 @@ import ProductCard from "../ProductCard/ProductCard";
 
 const LatestProducts = ({ productsAll }) => {
   const products = use(productsAll);
-  console.log(products);
   return (
     <section className="container mx-auto px-4 py-10">
       {/* Section Title */}

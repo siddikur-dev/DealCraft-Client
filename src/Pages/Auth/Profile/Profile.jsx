@@ -1,30 +1,42 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import { updateProfile } from "firebase/auth";
 import { AuthContext } from "../../../Context/AuthContext";
+import Swal from "sweetalert2";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
   const { displayName, email, emailVerified, photoURL } = user;
 
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState(displayName || "");
-  const [photo, setPhoto] = useState(photoURL || "");
   const [loading, setLoading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
 
-  const handleSave = (e) => {
+  // useRef for uncontrolled inputs
+  const nameRef = useRef();
+  const photoRef = useRef();
+
+  const handleUpdate = (e) => {
     e.preventDefault();
     setLoading(true);
-    setSuccessMsg("");
 
-    updateProfile(user, { displayName: name, photoURL: photo })
+    const updatedName = nameRef.current.value;
+    const updatedPhoto = photoRef.current.value;
+
+    updateProfile(user, {
+      displayName: updatedName,
+      photoURL: updatedPhoto,
+    })
       .then(() => {
-        setSuccessMsg("Profile updated successfully!");
         setIsEditing(false);
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Profile has updated",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch((error) => {
-        console.error(error);
         alert("Error updating profile: " + error.message);
       })
       .finally(() => setLoading(false));
@@ -39,10 +51,10 @@ const Profile = () => {
           <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
             <img
               src={
-                photo ||
+                photoURL ||
                 "https://cdn-icons-png.flaticon.com/128/3135/3135715.png"
               }
-              alt={name}
+              alt={displayName}
               className="w-32 h-32 rounded-full border-4 border-base-100 shadow-lg object-cover"
             />
           </div>
@@ -52,11 +64,13 @@ const Profile = () => {
         <div className="pt-20 pb-10 px-6 text-center">
           {!isEditing ? (
             <>
-              <h2 className="text-3xl font-bold text-primary">{displayName}</h2>
-              <p className="text-base-content/70 mt-1">{email}</p>
-              <p className="text-base-content/70 mt-1">
+              <h2 className="text-3xl font-bold text-primary">
+                Name: {displayName}
+              </h2>
+              <p className="text-base-content/70 mt-1">Email: {email}</p>
+              {/* <p className="text-base-content/70 mt-1">
                 Email verification: {emailVerified ? "Verified" : "Unverified"}
-              </p>
+              </p> */}
 
               <div className="mt-8">
                 <button
@@ -68,21 +82,21 @@ const Profile = () => {
               </div>
             </>
           ) : (
-            <form onSubmit={handleSave} className="space-y-4">
+            <form onSubmit={handleUpdate} className="space-y-4">
               <div className="flex flex-col items-center gap-4">
                 <input
                   type="text"
                   className="input input-bordered w-full max-w-md"
                   placeholder="Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  defaultValue={displayName}
+                  ref={nameRef}
                 />
                 <input
                   type="text"
                   className="input input-bordered w-full max-w-md"
                   placeholder="Photo URL"
-                  value={photo}
-                  onChange={(e) => setPhoto(e.target.value)}
+                  defaultValue={photoURL}
+                  ref={photoRef}
                 />
               </div>
 
@@ -102,11 +116,6 @@ const Profile = () => {
                   <FaTimes /> Cancel
                 </button>
               </div>
-              {successMsg && (
-                <p className="mt-2 text-green-500 font-semibold">
-                  {successMsg}
-                </p>
-              )}
             </form>
           )}
         </div>

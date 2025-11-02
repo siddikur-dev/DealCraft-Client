@@ -30,6 +30,13 @@ const Login = () => {
         navigate(location.state || "/");
       })
       .catch((error) => {
+        Swal.fire({
+          position: "top-center",
+          icon: "error",
+          title: "Invalid Pass/Mail",
+          showConfirmButton: false,
+          timer: 1200,
+        });
         console.log(error.message);
       });
   };
