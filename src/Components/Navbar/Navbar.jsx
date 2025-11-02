@@ -74,7 +74,9 @@ const Navbar = () => {
 
           {/* Profile & Mobile Toggle */}
           <div className="flex items-center gap-4">
-            <Link
+         
+            {user ? (<>
+               <Link
               to={"/profile"}
               className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary"
             >
@@ -87,10 +89,10 @@ const Navbar = () => {
                 className="w-full h-full object-cover"
               />
             </Link>
-            {user ? (
               <button onClick={handleSignOut} className="btn my-btn">
                 LogOut
               </button>
+            </>
             ) : (
               <>
                 <Link to="/register" className="btn my-btn text-white">

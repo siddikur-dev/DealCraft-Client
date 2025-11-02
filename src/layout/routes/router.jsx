@@ -8,6 +8,7 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Profile from "../../Pages/Auth/Profile/Profile";
 import CreateProduct from "../../Pages/Create/CreateProduct";
 import ProductDetails from "../../Components/ProductDetails/ProductDetails";
+import AllProducts from "../../Components/AllProducts/AllProducts";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,11 @@ const router = createBrowserRouter([
     Component: Root,
     children: [
       { index: true, Component: Home },
+      {
+        path: "/all-products",
+        loader: () => fetch(`http://localhost:3000/products`),
+        Component: AllProducts,
+      },
       {
         path: "/my-bid",
         element: (
