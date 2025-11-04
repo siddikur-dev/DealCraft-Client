@@ -1,9 +1,12 @@
+import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
 
 const CreateProduct = () => {
   const navigate = useNavigate();
+  // const { user } = useAuth();
   const createProduct = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -13,14 +16,8 @@ const CreateProduct = () => {
     newProduct.created_at = new Date();
     newProduct.status = "pending";
 
-    fetch("https://deal-craft-server.vercel.app/products", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(newProduct),
-    })
-      .then((res) => res.json())
+    axios
+      .post("http://localhost:3000/products", newProduct)
       .then((data) => {
         console.log(data);
         Swal.fire({

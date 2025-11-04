@@ -17,41 +17,47 @@ const Register = () => {
     const { email, password, displayName, photoURL, ...restUser } =
       Object.fromEntries(formData);
     console.log({ displayName, photoURL, email, password });
+
     // firebase userCreated
     createUser(email, password)
       .then((result) => {
         const newUser = {
           email,
-          restUser,
+          ...restUser, // nested না হয়ে flat data যাবে
           creationTime: result.user?.metadata?.creationTime,
           lastSignInTime: result.user?.metadata?.lastSignInTime,
         };
-        updateProfile(result.user, { displayName, photoURL });
 
-        // send to server through backend
-        fetch("https://deal-craft-server.vercel.app/users", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(newUser),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            Swal.fire({
-              position: "top-center",
-              icon: "success",
-              title: "User Created",
-              showConfirmButton: false,
-              timer: 1200,
-            });
-            navigate(location.state || "/");
+        // update profile
+        updateProfile(result.user, { displayName, photoURL })
+          .then(() => {
+            // send to server through backend
+            fetch("http://localhost:3000/users", {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(newUser),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data);
+                Swal.fire({
+                  position: "top-center",
+                  icon: "success",
+                  title: "User Created",
+                  showConfirmButton: false,
+                  timer: 1200,
+                });
+                navigate(location.state || "/");
+              });
+          })
+          .catch((error) => {
+            console.error("Profile update error:", error);
           });
       })
       .catch((error) => {
-        console.log(error.message);
-        // ..
+        console.error("User creation error:", error);
       });
   };
 

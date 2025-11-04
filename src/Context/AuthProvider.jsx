@@ -45,8 +45,25 @@ const AuthProvider = ({ children }) => {
 
   // Manage User State
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (res) => {
-      setUser(res);
+    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        const loggedUser = { email: currentUser.email };
+        fetch(`http://localhost:3000/jwtToken`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(loggedUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            localStorage.setItem("token", data.token);
+          });
+      }
+      else{
+        localStorage.removeItem('token')
+      }
       setLoading(false);
     });
 

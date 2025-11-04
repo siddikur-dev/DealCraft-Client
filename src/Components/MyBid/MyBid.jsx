@@ -6,12 +6,17 @@ const MyBid = () => {
   const { user } = use(AuthContext);
   const [bids, setBids] = useState([]);
   useEffect(() => {
-    fetch(`https://deal-craft-server.vercel.app/bids/?email=${user?.email}`)
+    fetch(`http://localhost:3000/bids/?email=${user.email}`, {
+      headers: {
+        authorization: `Bearer ${user.accessToken}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setBids(data);
-      });
-  }, [user?.email]);
+      })
+      .catch((error) => console.log("client side", error));
+  }, [user]);
 
   const handleDelete = (_id) => {
     Swal.fire({
@@ -24,7 +29,7 @@ const MyBid = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://deal-craft-server.vercel.app/bids/${_id}`, {
+        fetch(`http://localhost:3000bids/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

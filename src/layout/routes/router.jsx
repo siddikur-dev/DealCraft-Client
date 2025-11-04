@@ -48,7 +48,7 @@ const router = createBrowserRouter([
       {
         path: "/products/:id",
         loader: ({ params }) =>
-          fetch(`https://deal-craft-server.vercel.app/products/${params.id}`),
+          fetch(`http://localhost:3000/products/${params.id}`),
         element: (
           <PrivateRoute>
             <ProductDetails></ProductDetails>
