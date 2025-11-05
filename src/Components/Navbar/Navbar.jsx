@@ -31,7 +31,6 @@ const Navbar = () => {
         console.log(error);
       });
   };
-  console.log(user);
   return (
     <div className="container mx-auto">
       <nav className="bg-white shadow-sm sticky top-0 z-50">
@@ -74,25 +73,25 @@ const Navbar = () => {
 
           {/* Profile & Mobile Toggle */}
           <div className="flex items-center gap-4">
-         
-            {user ? (<>
-               <Link
-              to={"/profile"}
-              className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary"
-            >
-              <img
-                src={
-                  user?.photoURL ||
-                  "https://cdn-icons-png.flaticon.com/128/3135/3135715.png"
-                }
-                alt="user"
-                className="w-full h-full object-cover"
-              />
-            </Link>
-              <button onClick={handleSignOut} className="btn my-btn">
-                LogOut
-              </button>
-            </>
+            {user ? (
+              <>
+                <Link
+                  to={"/profile"}
+                  className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary"
+                >
+                  <img
+                    src={
+                      user?.photoURL ||
+                      "https://cdn-icons-png.flaticon.com/128/3135/3135715.png"
+                    }
+                    alt="user"
+                    className="w-full h-full object-cover"
+                  />
+                </Link>
+                <button onClick={handleSignOut} className="btn my-btn">
+                  LogOut
+                </button>
+              </>
             ) : (
               <>
                 <Link to="/register" className="btn my-btn text-white">

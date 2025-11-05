@@ -1,12 +1,11 @@
-import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const CreateProduct = () => {
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
-  // const { user } = useAuth();
   const createProduct = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -16,20 +15,17 @@ const CreateProduct = () => {
     newProduct.created_at = new Date();
     newProduct.status = "pending";
 
-    axios
-      .post("http://localhost:3000/products", newProduct)
-      .then((data) => {
-        console.log(data);
-        Swal.fire({
-          position: "top-center",
-          icon: "success",
-          title: "New product has created",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate("/");
-      })
-      .catch((err) => console.error(" Error:", err));
+    axiosSecure.post("/products", newProduct).then((data) => {
+      console.log(data.data);
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "New product has created",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/");
+    });
   };
 
   return (
@@ -68,7 +64,7 @@ const CreateProduct = () => {
             >
               Select Category
               <select className="select select-bordered w-full" name="category">
-                <option disabled selected>
+                <option disabled >
                   Select a Category
                 </option>
                 <option>Electronics</option>

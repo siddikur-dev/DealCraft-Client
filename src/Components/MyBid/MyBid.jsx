@@ -1,22 +1,33 @@
 import React, { use, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyBid = () => {
   const { user } = use(AuthContext);
+  const axiosSecure = useAxiosSecure();
   const [bids, setBids] = useState([]);
+
+  // Smart system
   useEffect(() => {
-    fetch(`http://localhost:3000/bids/?email=${user.email}`, {
-      headers: {
-        authorization: `Bearer ${user.accessToken}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setBids(data);
-      })
-      .catch((error) => console.log("client side", error));
-  }, [user]);
+    axiosSecure.get(`/bids/?email=${user.email}`).then((data) => {
+      setBids(data.data);
+    });
+  }, [user.email, axiosSecure]);
+
+  // OLD SYSTEM
+  // useEffect(() => {
+  //   fetch(`http://localhost:3000/bids/?email=${user.email}`, {
+  //     headers: {
+  //       authorization: `Bearer ${user.accessToken}`,
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setBids(data);
+  //     })
+  //     .catch((error) => console.log("client side", error));
+  // }, [user]);
 
   const handleDelete = (_id) => {
     Swal.fire({
@@ -29,7 +40,7 @@ const MyBid = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000bids/${_id}`, {
+        fetch(`http://localhost:3000/bids/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
