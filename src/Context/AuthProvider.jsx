@@ -49,7 +49,7 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       if (currentUser) {
         const loggedUser = { email: currentUser.email };
-        fetch(`http://localhost:3000/jwtToken`, {
+        fetch(`https://deal-craft-server.vercel.app/jwtToken`, {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -60,9 +60,8 @@ const AuthProvider = ({ children }) => {
           .then((data) => {
             localStorage.setItem("token", data.token);
           });
-      }
-      else{
-        localStorage.removeItem('token')
+      } else {
+        localStorage.removeItem("token");
       }
       setLoading(false);
     });

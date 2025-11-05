@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://deal-craft-server.vercel.app",
 });
 const useAxiosSecure = () => {
   const { user, signOutUser } = useAuth();

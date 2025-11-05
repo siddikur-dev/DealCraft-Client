@@ -25,7 +25,7 @@ const ProductDetails = () => {
       productId: product._id,
       image: user.photoURL,
     };
-    fetch(`http://localhost:3000/bids`, {
+    fetch(`https://deal-craft-server.vercel.app/bids`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -51,13 +51,12 @@ const ProductDetails = () => {
         }
       });
 
-    console.log("Bid submitted:", newBid);
     form.reset();
     bidRef.current.close();
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/products/bids/${product?._id}`, {
+    fetch(`https://deal-craft-server.vercel.app/products/bids/${product?._id}`, {
       headers: {
         authorization: `Bearer ${user.accessToken}`,
       },
@@ -66,7 +65,7 @@ const ProductDetails = () => {
       .then((data) => {
         setBids(data);
       });
-  }, [product?._id]);
+  }, [product?._id, user]);
 
   const {
     _id,

@@ -16,7 +16,6 @@ const CreateProduct = () => {
     newProduct.status = "pending";
 
     axiosSecure.post("/products", newProduct).then((data) => {
-      console.log(data.data);
       Swal.fire({
         position: "top-center",
         icon: "success",
@@ -64,9 +63,7 @@ const CreateProduct = () => {
             >
               Select Category
               <select className="select select-bordered w-full" name="category">
-                <option disabled >
-                  Select a Category
-                </option>
+                <option disabled>Select a Category</option>
                 <option>Electronics</option>
                 <option>Vehicles</option>
                 <option>Furniture</option>

@@ -17,7 +17,7 @@ const MyBid = () => {
 
   // OLD SYSTEM
   // useEffect(() => {
-  //   fetch(`http://localhost:3000/bids/?email=${user.email}`, {
+  //   fetch(`https://deal-craft-server.vercel.app/bids/?email=${user.email}`, {
   //     headers: {
   //       authorization: `Bearer ${user.accessToken}`,
   //     },
@@ -40,12 +40,11 @@ const MyBid = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/bids/${_id}`, {
+        fetch(`https://deal-craft-server.vercel.app/bids/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
             Swal.fire({
               position: "top-center",
               icon: "success",

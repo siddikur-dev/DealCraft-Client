@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 
 const Login = () => {
   const { signInWithMailPass, signInGoogle } = use(AuthContext);
+  
   const navigate = useNavigate();
   const location = useLocation();
   // login user
@@ -26,7 +27,6 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1200,
         });
-        console.log(result.user);
         navigate(location.state || "/");
       })
       .catch((error) => {
@@ -37,7 +37,7 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1200,
         });
-        console.log(error.message);
+        // console.log(error.message);
       });
   };
 
@@ -45,7 +45,6 @@ const Login = () => {
   const handleSignInGoogle = () => {
     signInGoogle()
       .then((result) => {
-        console.log(result.user);
         Swal.fire({
           position: "top-center",
           icon: "success",

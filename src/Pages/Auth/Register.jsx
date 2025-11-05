@@ -16,7 +16,6 @@ const Register = () => {
     const formData = new FormData(form);
     const { email, password, displayName, photoURL, ...restUser } =
       Object.fromEntries(formData);
-    console.log({ displayName, photoURL, email, password });
 
     // firebase userCreated
     createUser(email, password)
@@ -32,7 +31,7 @@ const Register = () => {
         updateProfile(result.user, { displayName, photoURL })
           .then(() => {
             // send to server through backend
-            fetch("http://localhost:3000/users", {
+            fetch("https://deal-craft-server.vercel.app/users", {
               method: "POST",
               headers: {
                 "content-type": "application/json",
@@ -41,7 +40,6 @@ const Register = () => {
             })
               .then((res) => res.json())
               .then((data) => {
-                console.log(data);
                 Swal.fire({
                   position: "top-center",
                   icon: "success",
@@ -65,7 +63,6 @@ const Register = () => {
   const handleSignInGoogle = () => {
     signInGoogle()
       .then((result) => {
-        console.log(result.user);
         Swal.fire({
           position: "top-center",
           icon: "success",
